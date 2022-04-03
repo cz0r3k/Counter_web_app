@@ -9,7 +9,5 @@ services:
       - database
   database:
     image: redis
-    ports:
-      - "6379:6379"
     volumes:
       - ./data:/data
