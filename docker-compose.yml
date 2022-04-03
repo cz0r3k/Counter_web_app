@@ -5,9 +5,11 @@ services:
     image: rust_microservices_api
     ports:
       - "8000:8000"
+    depends_on:
+      - database
   database:
     image: redis
+    ports:
+      - "6379:6379"
     volumes:
-      - db:/data
-volumes:
-  db:
+      - ./data:/data
