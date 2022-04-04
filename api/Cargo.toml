@@ -6,8 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rocket = "0.5.0-rc.1"
-serde_json = "1.0"
+rocket = { version = "0.5.0-rc.1", features = ["tls", "json"] }
+rocket_okapi = { version = "0.8.0-alpha-1", features = ["swagger", "rapidoc"] }
 
 [dependencies.redis]
 version = "*"
