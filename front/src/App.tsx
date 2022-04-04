@@ -2,19 +2,21 @@ import './App.css';
 import axios from 'axios'
 import {useEffect, useState} from 'react';
 
-
+const api_url = 'http://0.0.0.0:8000/api'
 
 function Counter() {
   const [count, setCount] = useState(0);
+
   async function get_counter(){
     try {
-      const obj = await axios.get('http://0.0.0.0:8000/get_counter');
+      const obj = await axios.get(api_url + '/get_counter');
       const value = obj.data.value;
       return value;
     } catch (error) {
       console.error(error);
     }
   }
+
   async function set_counter():Promise<any>{
     const value = await get_counter();
     setCount(value);
@@ -26,18 +28,20 @@ function Counter() {
 
   const increment = async() => {
     try {
-      await axios.post('http://0.0.0.0:8000/increment').then(await set_counter());
+      await axios.post(api_url + '/increment').then(await set_counter());
     } catch (error) {
       console.error(error);
     }
   }
+
   const decrement = async() => {
     try {
-      await axios.post('http://0.0.0.0:8000/decrement').then(await set_counter());
+      await axios.post(api_url + '/decrement').then(await set_counter());
     } catch (error) {
       console.error(error);
     }
   }
+
   return (
     <>
       Licznik: {count}
@@ -46,7 +50,6 @@ function Counter() {
     </>
   );
 }
-
 
 function App() {
   return (
