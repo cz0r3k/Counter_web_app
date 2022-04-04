@@ -1,22 +1,21 @@
 import './App.css';
 import axios from 'axios'
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
 
 
 function Counter() {
   const [count, setCount] = useState(0);
-  async function get_counter() {
+  async function get_counter(){
     try {
       const obj = await axios.get('http://0.0.0.0:8000/get_counter');
       const value = obj.data.value;
-      console.log(value);
       return value;
     } catch (error) {
       console.error(error);
     }
   }
-  async function set_counter(){
+  async function set_counter():Promise<any>{
     const value = await get_counter();
     setCount(value);
   }

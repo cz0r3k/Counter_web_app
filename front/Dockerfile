@@ -1,9 +1,9 @@
-FROM node:alpine as builder 
-WORKDIR '/app'
-COPY package.json .
-RUN npm install
+FROM node:alpine as builder
+WORKDIR /app
+COPY package.json yarn.lock /app/
+RUN yarn install --pure-lockfile
 COPY . .
-RUN npm run build 
+RUN yarn run build
 
 FROM nginx
 EXPOSE 8080
