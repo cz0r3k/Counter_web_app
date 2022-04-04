@@ -1,5 +1,12 @@
 version: "3.9"
 services:
+  front:
+    build: front/.
+    image: rust_microservices_front
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
   api:
     build: api/.
     image: rust_microservices_api
