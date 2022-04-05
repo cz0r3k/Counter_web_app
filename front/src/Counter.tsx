@@ -1,9 +1,10 @@
+import './Counter.css';
 import axios from 'axios'
 import {useEffect, useState} from 'react';
 
 export function Counter() {
     const [count, setCount] = useState(0);
-    const api_url = 'http://0.0.0.0:8000/api'
+    const api_url = 'http://localhost:8000/api'
   
     async function get_counter(){
       try {
@@ -43,8 +44,10 @@ export function Counter() {
     return (
       <>
         Licznik: {count}
-        <button onClick={decrement}>-</button>
-        <button onClick={increment}>+</button>
+        <div className="buttons">
+          <button className='action_btn' onClick={decrement}>-</button>
+          <button className='action_btn' onClick={increment}>+</button>
+        </div>
       </>
     );
   }
