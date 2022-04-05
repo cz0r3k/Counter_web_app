@@ -1,6 +1,7 @@
 use rocket::http::Status;
 use rocket_okapi::openapi;
 use rocket::serde::json::{json, Value};
+use rocket::response::Redirect;
 pub mod db;
 
 const COUNTER_MAX_VALUE: i32 = 1000;
@@ -8,8 +9,14 @@ const COUNTER_MIN_VALUE: i32 = 0;
 
 #[openapi(skip)]
 #[get("/")]
-pub fn index() -> &'static str {
+pub fn main_page() -> &'static str {
     "Hello, world!"
+}
+
+#[openapi(skip)]
+#[get("/")]
+pub fn index() -> Redirect {
+    Redirect::temporary("/api")
 }
 
 /// # Get current counter value

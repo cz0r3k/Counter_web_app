@@ -7,6 +7,8 @@ services:
       - "8080:80"
     depends_on:
       - api
+    networks:
+      - app_network
   api:
     build: api/.
     image: rust_microservices_api
@@ -14,7 +16,13 @@ services:
       - "8000:8000"
     depends_on:
       - database
+    networks:
+      - app_network
   database:
     image: redis
     volumes:
       - ./data:/data
+    networks:
+      - app_network
+networks:
+  app_network:

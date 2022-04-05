@@ -2,9 +2,10 @@ extern crate redis;
 use redis::{Commands, Connection};
 
 const COUNTER_INITIALIZATION_VALUE: i32 = 0;
+const DATABASE_ADDRESS:&str = "redis://database";
 
 fn get_connection()->redis::RedisResult<Connection>{
-    redis::Client::open("redis://database").unwrap().get_connection()
+    redis::Client::open(DATABASE_ADDRESS).unwrap().get_connection()
 }
 
 pub fn return_counter()->redis::RedisResult<i32>{
