@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react';
 
 export function Counter() {
     const [count, setCount] = useState(0);
-    const api_url = 'http://localhost:8000/api'
+    const api_url = 'http://localhost/api'
   
     async function get_counter(){
       try {
