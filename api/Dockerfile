@@ -14,5 +14,4 @@ RUN cargo build --release --bin api
 FROM debian:bullseye-slim AS runtime
 COPY --from=builder /app/target/release/api /usr/local/bin
 ENV ROCKET_ADDRESS=0.0.0.0
-EXPOSE 8000
 CMD ["/usr/local/bin/api"]

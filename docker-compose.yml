@@ -3,15 +3,11 @@ services:
   front:
     build: front/.
     image: rust_microservices_front
-    ports:
-      - "8080:80"
     depends_on:
       - api
   api:
     build: api/.
     image: rust_microservices_api
-    ports:
-      - "8000:8000"
     depends_on:
       - database
   database:

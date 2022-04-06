@@ -10,7 +10,7 @@ const COUNTER_MIN_VALUE: i32 = 0;
 #[openapi(skip)]
 #[get("/")]
 pub fn main_page() -> &'static str {
-    "Hello, world!"
+    "Hello from api"
 }
 
 #[openapi(skip)]

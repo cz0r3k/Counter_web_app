@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react';
 
 export function Counter() {
     const [count, setCount] = useState(0);
-    const api_url = 'http://localhost/api'
+    const api_url = '/api'
   
     async function get_counter(){
       try {
@@ -27,7 +27,7 @@ export function Counter() {
   
     const increment = async() => {
       try {
-        await axios.post(api_url + '/increment').then(await set_counter());
+        axios.post(api_url + '/increment').then(await set_counter());
       } catch (error) {
         console.error(error);
       }
@@ -35,7 +35,7 @@ export function Counter() {
   
     const decrement = async() => {
       try {
-        await axios.post(api_url + '/decrement').then(await set_counter());
+        axios.post(api_url + '/decrement').then(await set_counter());
       } catch (error) {
         console.error(error);
       }
