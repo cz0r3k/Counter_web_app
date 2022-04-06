@@ -1,24 +1,14 @@
 import axios from 'axios'
 import {useEffect, useState} from 'react';
-// import {Button as button, ButtonToolbar as div} from 'react-bootstrap'
 
 export function Counter() {
-    const [count, setCount] = useState(0);
+    const [counter, setLocalCounter] = useState(0);
     const api_url = '/api'
   
-    async function get_counter(){
-      try {
-        const obj = await axios.get(api_url + '/get_counter');
-        const value = obj.data.value;
-        return value;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  
     async function set_counter():Promise<any>{
-      const value = await get_counter();
-      setCount(value);
+      const obj = await axios.get(api_url + '/get_counter');
+      const value = obj.data.value;
+      setLocalCounter(value);
     }
   
     useEffect(() => {
@@ -27,8 +17,7 @@ export function Counter() {
   
     const increment = async() => {
       try {
-        axios.post(api_url + '/increment');
-        await set_counter();
+        setLocalCounter((await axios.post(api_url + '/increment')).data.value);
       } catch (error) {
         console.error(error);
       }
@@ -36,8 +25,7 @@ export function Counter() {
   
     const decrement = async() => {
       try {
-        axios.post(api_url + '/decrement');
-        await set_counter();
+        setLocalCounter((await axios.post(api_url + '/decrement')).data.value);
       } catch (error) {
         console.error(error);
       }
@@ -45,7 +33,7 @@ export function Counter() {
   
     return (
       <>
-        Licznik: {count}
+        Licznik: {counter}
        <div className='btn-toolbar' role='toolbar'>
          <button type='button' className='btn btn-outline-primary btn-lg' onClick={decrement}>-</button>
          <button type='button' className='btn btn-outline-primary btn-lg' onClick={increment}>+</button>

@@ -1,7 +1,6 @@
 use rocket::http::Status;
 use rocket_okapi::openapi;
 use rocket::serde::json::{json, Value};
-use rocket::response::Redirect;
 pub mod db;
 
 const COUNTER_MAX_VALUE: i32 = 1000;
@@ -9,69 +8,71 @@ const COUNTER_MIN_VALUE: i32 = 0;
 
 #[openapi(skip)]
 #[get("/")]
-pub fn main_page() -> &'static str {
+pub fn index() -> &'static str {
     "Hello from api"
 }
 
-#[openapi(skip)]
-#[get("/")]
-pub fn index() -> Redirect {
-    Redirect::temporary("/api")
-}
-
 /// # Get current counter value
+///
+/// Return current counter value
 #[openapi(tag = "Counter")]
 #[get("/get_counter")]
-pub fn get_counter()-> Value {
-    json!({"value":db::return_counter().unwrap()})
+pub fn get_counter()-> Result<Value,Status> {
+    Ok(json!({"value":db::return_counter().unwrap()}))
 }
 
 /// # Set counter value
+///
+/// Return current counter value
 #[openapi(tag = "Counter")]
 #[post("/set_counter/<value>")]
-pub fn set_counter(value: i32) -> Status{
+pub fn set_counter(value: i32) -> Result<Value,Status>{
     if !(COUNTER_MIN_VALUE..=COUNTER_MAX_VALUE).contains(&value){
-        return Status::NotAcceptable;
+        return Err(Status::NotAcceptable);
     }
     let operation = db::set(value);
     if operation.is_err(){
-        return Status::new(500);
+        return Err(Status::new(500));
     }
-    Status::Ok
+    Ok(json!({"value":db::return_counter().unwrap()}))
 }
 
 /// # Increment counter value by 1
+///
+/// Return current counter value
 #[openapi(tag = "Counter")]
 #[post("/increment")]
-pub fn increment_counter() -> Status{
+pub fn increment_counter() -> Result<Value,Status>{
     let counter = db::return_counter();
     if counter.is_err(){
-        return Status::new(500);
+        return Err(Status::new(500));
     }
     if counter == Ok(COUNTER_MAX_VALUE) {
-        return Status::NotAcceptable;
+        return Err(Status::NotAcceptable);
     }
     let operation = db::increment();
     if operation.is_err(){
-        return Status::new(500);
+        return Err(Status::new(500));
     }
-    Status::Ok
+    Ok(json!({"value":db::return_counter().unwrap()}))
 }
 
 /// # Decrement counter value by 1
+///
+/// Return current counter value
 #[openapi(tag = "Counter")]
 #[post("/decrement")]
-pub fn decrement_counter()-> Status{
+pub fn decrement_counter()-> Result<Value,Status>{
     let counter = db::return_counter();
     if counter.is_err(){
-        return Status::new(500);
+        return Err(Status::new(500));
     }
     if counter == Ok(COUNTER_MIN_VALUE) {
-        return Status::NotAcceptable;
+        return Err(Status::NotAcceptable);
     }
     let operation = db::decrement();
     if operation.is_err(){
-        return Status::new(500);
+        return Err(Status::new(500));
     }
-    Status::Ok
+    Ok(json!({"value":db::return_counter().unwrap()}))
 }
