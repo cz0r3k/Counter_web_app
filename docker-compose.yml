@@ -2,12 +2,12 @@ version: "3.9"
 services:
   front:
     build: front/.
-    image: rust_microservices_front
+    image: cz0r3k/counter_web_app:front
     depends_on:
       - api
   api:
     build: api/.
-    image: rust_microservices_api
+    image: cz0r3k/counter_web_app:api
     depends_on:
       - database
   database:
@@ -15,9 +15,9 @@ services:
     volumes:
       - ./data:/data
   proxy:
-    build: ./proxy
+    build: proxy/.
+    image: cz0r3k/counter_web_app:proxy
     ports:
       - "80:80"
     depends_on:
       - front
-  
