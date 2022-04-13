@@ -1,6 +1,6 @@
 use rocket::http::Status;
-use rocket_okapi::openapi;
 use rocket::serde::json::{json, Value};
+use rocket_okapi::openapi;
 pub mod db;
 
 const COUNTER_MAX_VALUE: i32 = 1000;
@@ -17,7 +17,7 @@ pub fn index() -> &'static str {
 /// Return current counter value
 #[openapi(tag = "Counter")]
 #[get("/get_counter")]
-pub fn get_counter()-> Result<Value,Status> {
+pub fn get_counter() -> Result<Value, Status> {
     Ok(json!({"value":db::return_counter().unwrap()}))
 }
 
@@ -26,12 +26,12 @@ pub fn get_counter()-> Result<Value,Status> {
 /// Return current counter value
 #[openapi(tag = "Counter")]
 #[post("/set_counter/<value>")]
-pub fn set_counter(value: i32) -> Result<Value,Status>{
-    if !(COUNTER_MIN_VALUE..=COUNTER_MAX_VALUE).contains(&value){
+pub fn set_counter(value: i32) -> Result<Value, Status> {
+    if !(COUNTER_MIN_VALUE..=COUNTER_MAX_VALUE).contains(&value) {
         return Err(Status::NotAcceptable);
     }
     let operation = db::set(value);
-    if operation.is_err(){
+    if operation.is_err() {
         return Err(Status::new(500));
     }
     Ok(json!({"value":db::return_counter().unwrap()}))
@@ -42,16 +42,16 @@ pub fn set_counter(value: i32) -> Result<Value,Status>{
 /// Return current counter value
 #[openapi(tag = "Counter")]
 #[post("/increment")]
-pub fn increment_counter() -> Result<Value,Status>{
+pub fn increment_counter() -> Result<Value, Status> {
     let counter = db::return_counter();
-    if counter.is_err(){
+    if counter.is_err() {
         return Err(Status::new(500));
     }
     if counter == Ok(COUNTER_MAX_VALUE) {
         return Err(Status::NotAcceptable);
     }
     let operation = db::increment();
-    if operation.is_err(){
+    if operation.is_err() {
         return Err(Status::new(500));
     }
     Ok(json!({"value":db::return_counter().unwrap()}))
@@ -62,16 +62,16 @@ pub fn increment_counter() -> Result<Value,Status>{
 /// Return current counter value
 #[openapi(tag = "Counter")]
 #[post("/decrement")]
-pub fn decrement_counter()-> Result<Value,Status>{
+pub fn decrement_counter() -> Result<Value, Status> {
     let counter = db::return_counter();
-    if counter.is_err(){
+    if counter.is_err() {
         return Err(Status::new(500));
     }
     if counter == Ok(COUNTER_MIN_VALUE) {
         return Err(Status::NotAcceptable);
     }
     let operation = db::decrement();
-    if operation.is_err(){
+    if operation.is_err() {
         return Err(Status::new(500));
     }
     Ok(json!({"value":db::return_counter().unwrap()}))
