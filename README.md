@@ -13,10 +13,10 @@
 ### Prerequisites
 Before you start install docker and docker-compose
 ### Pull images
-If you don't want build the whole project you can pull all images
+If you don't want build the whole project you can pull all images\
 ```docker compose pull```
 ### Build images
-After making any changes build project
+After making any changes build project\
 ```docker-compose build```
 ### Run
 Application will start on port 80 by default
